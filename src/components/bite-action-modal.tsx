@@ -3,12 +3,8 @@
 import style from './add-bite-modal.module.scss';
 import {Modal, Button, Flex, TextInput, FileInput, rem, LoadingOverlay} from '@mantine/core';
 import { Textarea } from '@mantine/core';
-import {useState, useTransition} from 'react';
+import {useState} from 'react';
 import {IconUpload} from '@tabler/icons-react';
-import newBitBitesClient, {Bite} from '@/libs/bites';
-import {addBite} from "@/app/_actions";
-import {useToken} from "@/libs/auth";
-import useSWR, {useSWRConfig} from "swr";
 
 interface ActionBiteModalProps {
   action: Function;

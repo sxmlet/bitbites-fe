@@ -3,7 +3,7 @@
 import Bites from '@/components/bites';
 import AddBite from "@/components/add-bite";
 import React, {useEffect, useState} from "react";
-import newBitBitesClient, {Bite} from "@/libs/bites";
+import newBitBitesClient, {Bite} from "@/libs/api/bites";
 import useSWR from "swr";
 import {useSWRConfig} from "swr";
 import {useToken} from "@/libs/auth";
@@ -18,7 +18,7 @@ export default function Home() {
   const {mutate} = useSWRConfig();
   const bites: Bite[] = data as Bite[];
   return <>
-    {<Bites actionable={false} bites={bites ?? []} loading={isLoading} error={error}/>}
+    {<Bites actionable={false} bites={bites ?? []} loading={isLoading} error={error?.info}/>}
     <AddBite onAddBite={() => mutate(['/api/v0/bites', token])}/>
   </>
 }

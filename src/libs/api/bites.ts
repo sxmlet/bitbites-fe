@@ -1,10 +1,19 @@
 import {config} from "@/libs/config";
 import * as querystring from "querystring";
+import {ErrorResponse, ResponseError} from "@/libs/error";
 
 export interface Bite {
-  id?: number,
+  id?: number;
+  title: string;
+  content: string;
+  file?: File|null;
+  url?: string;
+}
+
+export interface PostBite {
   title: string,
   content: string,
+  filename?: string,
 }
 
 export interface UpdateBite {
@@ -14,7 +23,7 @@ export interface UpdateBite {
 
 export class BitBitesClient {
 
-  private headers: Record<string, string>;
+  private readonly headers: Record<string, string>;
 
   constructor(idToken: string) {
     this.getAllBites = this.getAllBites.bind(this);
@@ -32,30 +41,33 @@ export class BitBitesClient {
     return config.bitesApi + '/api/v0';
   }
 
+  async uploadFile(file: File): Promise<Response> {
+    const resp = await this.get(`/bites/signed-url/${file.name}`, ['file-'+file.name]);
+    const body = await resp.json()
+
+    const uploadResp = await fetch(body.uploadUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type,
+      }
+    })
+
+    return handleError(uploadResp);
+  }
+
   async getAllBites(): Promise<Bite[]> {
     const resp = await this.get('/bites', ['bites']);
-    if (!resp.ok) {
-      console.log(resp);
-      return [];
-    }
     return resp.json();
   }
 
   async getAllBitesFromUser(uid: string = ''): Promise<Bite[]> {
     const resp = await this.get(`/${uid}/bites`, ['bites-' + uid]);
-    if (!resp.ok) {
-      console.log(resp);
-      return [];
-    }
     return resp.json();
   }
 
-  async createNewBites(data: Bite): Promise<Bite|null> {
+  async createNewBites(data: PostBite): Promise<Bite|null> {
     const resp = await this.post('/bites', data);
-    if (!resp.ok) {
-      console.log(resp);
-      return null;
-    }
     return resp.json();
   }
 
@@ -70,19 +82,11 @@ export class BitBitesClient {
 
 
     const resp = await this.patch(`/bites/${data.id}`, body)
-    if (!resp.ok) {
-      console.log(resp);
-      return null;
-    }
     return resp.json();
   }
 
   async deleteBite(id: string) {
     const resp = await this.delete(`/bites/${id}`);
-    if (!resp.ok) {
-      console.log(resp);
-      return null;
-    }
     return resp.json();
   }
 
@@ -102,35 +106,55 @@ export class BitBitesClient {
       path += `?${queryStr};`
     }
 
-    return await fetch(this.getEndpoint() + path, init);
+    return handleError(await fetch(this.getEndpoint() + path, init));
   }
 
   async post(path: string, body: any): Promise<Response> {
-    return await fetch(this.getEndpoint() + path, {
+    return handleError(await fetch(this.getEndpoint() + path, {
       headers: this.headers,
       method: 'POST',
       body: JSON.stringify(body),
-    });
+    }));
   }
 
   async delete(path: string): Promise<Response> {
-    console.log(this.getEndpoint());
-    return await fetch(this.getEndpoint() + path, {
+    return handleError(await fetch(this.getEndpoint() + path, {
       headers: this.headers,
       method: 'DELETE',
-    });
+    }));
   }
 
   async patch(path: string, body: any): Promise<Response> {
-    return await fetch(this.getEndpoint() + path, {
+    return handleError(await fetch(this.getEndpoint() + path, {
       headers: this.headers,
       method: 'PATCH',
       body: JSON.stringify(body),
-    });
+    }));
+  }
+
+  async put(path: string, body: any): Promise<Response> {
+    return handleError(await fetch(this.getEndpoint() + path, {
+      headers: this.headers,
+      method: 'PUT',
+      body: JSON.stringify(body),
+    }));
   }
 
 }
 
 export default function newBitBitesClient(idToken: string): BitBitesClient {
   return new BitBitesClient(idToken);
+}
+
+async function handleError(resp: Response): Promise<Response> {
+  if (resp.ok) return resp;
+  const error = new ResponseError('An error occurred during bites retrieval');
+  if (resp.headers.get('Content-Type') === 'application/json') {
+    const body = await resp.json() as ErrorResponse;
+    error.info = body.message;
+  } else {
+    error.info = await resp.text();
+  }
+  error.status = resp.status;
+  throw error;
 }

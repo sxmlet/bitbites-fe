@@ -1,7 +1,7 @@
 'use client';
 
 import BiteView from '@/components/bite-view';
-import {Bite} from '@/libs/bites';
+import {Bite} from '@/libs/api/bites';
 import ErrorAlert from '@/components/alert/error';
 import React, {ReactElement} from 'react';
 import {Container, Loader} from '@mantine/core';
@@ -34,6 +34,7 @@ export default function Bites(props : BitesInput) {
       key={p.id}
       title={p.title}
       content={p.content}
+      url={p.url}
       bid={p.id.toString()}
     />;
   });

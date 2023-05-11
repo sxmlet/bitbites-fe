@@ -2,7 +2,7 @@
 
 import Bites from "@/components/bites";
 import useSWR, {useSWRConfig} from "swr";
-import newBitBitesClient, {Bite, } from "@/libs/bites";
+import newBitBitesClient, {Bite, } from "@/libs/api/bites";
 import {useToken, useUid} from "@/libs/auth";
 import AddBite from "@/components/add-bite";
 import React from "react";
@@ -24,7 +24,7 @@ export default function MyBites() {
       actionable={true}
       bites={bites ?? []}
       loading={isLoading}
-      error={error}
+      error={error?.info}
     />
     <AddBite onAddBite={() => mutate([`/api/v0/uid/bites`, uid, token])}/>
     </>;
