@@ -1,25 +1,9 @@
 import {config} from "@/libs/config";
 import * as querystring from "querystring";
 import {ErrorResponse, ResponseError} from "@/libs/error";
-
-export interface Bite {
-  id?: number;
-  title: string;
-  content: string;
-  file?: File|null;
-  url?: string;
-}
-
-export interface PostBite {
-  title: string,
-  content: string,
-  filename?: string,
-}
-
-export interface UpdateBite {
-  title?: string,
-  content?: string,
-}
+import {Bite} from "@/libs/api/models/Bite";
+import {PostBite} from "@/libs/api/models/PostBite";
+import {UpdateBite} from "@/libs/api/models/UpdateBite";
 
 export class BitBitesClient {
 
@@ -142,6 +126,11 @@ export class BitBitesClient {
 
 }
 
+/**
+ * Factory function for the bites client.
+ *
+ * @param idToken The access token.
+ */
 export default function newBitBitesClient(idToken: string): BitBitesClient {
   return new BitBitesClient(idToken);
 }

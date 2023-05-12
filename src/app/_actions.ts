@@ -1,8 +1,9 @@
 'use server';
 
-import newBitBitesClient, {Bite, PostBite} from "@/libs/api/bites";
+import newBitBitesClient from "@/libs/api/bites";
 import {revalidateTag} from "next/cache";
-import {config} from "@/libs/config";
+import {PostBite} from "@/libs/api/models/PostBite";
+import {Bite} from "@/libs/api/models/Bite";
 
 export async function addBite(bite: PostBite, token: string) {
   const client = newBitBitesClient(token);

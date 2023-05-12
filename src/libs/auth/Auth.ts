@@ -1,12 +1,11 @@
 import {WebAuth} from 'auth0-js';
 import jwt from 'jsonwebtoken';
-import {useEffect, useState} from "react";
 import {config} from "@/libs/config";
 
+/**
+ * Primary interface for authentication related actions.
+ */
 class Auth {
-
-  idToken: string = '';
-  accessToken: string = '';
 
   auth = new WebAuth({
     domain: config.domain,
@@ -36,13 +35,14 @@ class Auth {
         return;
       }
 
-      this.idToken = decoded?.idToken ?? '';
-      sessionStorage.setItem('accessToken', this.idToken);
-      sessionStorage.setItem('uid', getUserId(this.idToken));
+      const token = decoded?.idToken ?? '';
+      sessionStorage.setItem('accessToken', token);
+      sessionStorage.setItem('uid', this.getUserIdFromToken(token));
     })
 
   }
 
+  // @todo: Implement token renewal.
   refresh() {
     //this.auth.renewAuth()
   }
@@ -55,34 +55,11 @@ class Auth {
     return sessionStorage.getItem('uid') ?? '';
   }
 
+  private getUserIdFromToken(token: string): string {
+    const decoded = jwt.decode(token) as {sub: string}
+    return decoded.sub
+  }
+
 }
 
 export const auth = new Auth();
-
-interface User {
-  accessToken: string,
-  uid: string,
-}
-
-export function useUid(): string {
-  const [uid, setUid] = useState('');
-
-  useEffect(() => {
-    setUid(auth.getUid);
-  }, [uid]);
-  return uid;
-}
-
-export function useToken(): string {
-  const [token, setToken] = useState('')
-
-  useEffect(() => {
-    setToken(auth.getAccessToken);
-  }, [token]);
-  return token
-}
-
-export function getUserId(token: string): string {
-  const decoded = jwt.decode(token) as {sub: string}
-  return decoded.sub
-}

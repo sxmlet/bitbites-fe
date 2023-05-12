@@ -1,11 +1,12 @@
 'use client';
 
-import Bites from "@/components/bites";
+import Bites from "@/components/bite-views/bites";
 import useSWR, {useSWRConfig} from "swr";
-import newBitBitesClient, {Bite, } from "@/libs/api/bites";
-import {useToken, useUid} from "@/libs/auth";
-import AddBite from "@/components/add-bite";
+import newBitBitesClient from "@/libs/api/bites";
+import {useToken, useUid} from "@/libs/auth/hooks";
+import AddBite from "@/components/add-bite/add-bite";
 import React from "react";
+import {Bite} from "@/libs/api/models/Bite";
 
 export default function MyBites() {
   const uid = useUid();

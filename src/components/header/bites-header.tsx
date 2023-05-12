@@ -2,10 +2,10 @@
 
 import styles from './bites-header.module.scss';
 import {Header, Group, Container, Button} from '@mantine/core';
-import BitBitesLogo from '@/components/bit-bites-logo';
+import BitBitesLogo from '@/components/header/bit-bites-logo';
 import React, {useEffect, useState} from 'react';
 import LoggedInMenu from '@/components/profile/logged-in-menu';
-import {auth} from '@/libs/auth';
+import {auth} from '@/libs/auth/Auth';
 import Link from "next/link";
 
 

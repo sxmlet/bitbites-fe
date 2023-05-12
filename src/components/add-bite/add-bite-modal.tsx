@@ -5,10 +5,11 @@ import {Modal, Button, Flex, TextInput, FileInput, rem, LoadingOverlay} from '@m
 import { Textarea } from '@mantine/core';
 import {useState, useTransition} from 'react';
 import {IconUpload} from '@tabler/icons-react';
-import newBitBitesClient, {Bite, PostBite} from '@/libs/api/bites';
+import newBitBitesClient from '@/libs/api/bites';
 import {addBite} from "@/app/_actions";
-import {useToken} from "@/libs/auth";
-import useSWR, {useSWRConfig} from "swr";
+import {useToken} from "@/libs/auth/hooks";
+import {Bite} from "@/libs/api/models/Bite";
+import {PostBite} from "@/libs/api/models/PostBite";
 
 export default function AddBiteModal(props: any) {
   const [file, setFile] = useState<File | null>(null);

@@ -1,6 +1,6 @@
 'use client';
 
-import styles from '@/components/add-bite.module.scss';
+import styles from '@/components/add-bite/add-bite.module.scss';
 import {ActionIcon, Flex} from "@mantine/core";
 import {IconFeather} from "@tabler/icons-react";
 

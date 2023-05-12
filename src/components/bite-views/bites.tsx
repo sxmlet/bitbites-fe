@@ -1,10 +1,10 @@
 'use client';
 
-import BiteView from '@/components/bite-view';
-import {Bite} from '@/libs/api/bites';
+import BiteView from '@/components/bite-views/bite-view';
 import ErrorAlert from '@/components/alert/error';
 import React, {ReactElement} from 'react';
 import {Container, Loader} from '@mantine/core';
+import {Bite} from "@/libs/api/models/Bite";
 
 interface BitesInput {
   bites: Bite[],

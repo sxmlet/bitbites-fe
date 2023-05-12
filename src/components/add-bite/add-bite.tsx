@@ -1,7 +1,7 @@
 'use client';
 
-import AddBiteButton from '@/components/add-bite-button';
-import AddBiteModal from '@/components/add-bite-modal';
+import AddBiteButton from '@/components/add-bite/add-bite-button';
+import AddBiteModal from '@/components/add-bite/add-bite-modal';
 import React, {useState} from 'react';
 
 export default function AddBite({ onAddBite }: {onAddBite: Function}) {

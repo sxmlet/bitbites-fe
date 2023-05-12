@@ -1,12 +1,13 @@
 'use client';
 
-import Bites from '@/components/bites';
-import AddBite from "@/components/add-bite";
-import React, {useEffect, useState} from "react";
-import newBitBitesClient, {Bite} from "@/libs/api/bites";
+import Bites from '@/components/bite-views/bites';
+import AddBite from "@/components/add-bite/add-bite";
+import React from "react";
+import newBitBitesClient from "@/libs/api/bites";
 import useSWR from "swr";
 import {useSWRConfig} from "swr";
-import {useToken} from "@/libs/auth";
+import {useToken} from "@/libs/auth/hooks";
+import {Bite} from "@/libs/api/models/Bite";
 
 export default function Home() {
   const token = useToken();

@@ -3,11 +3,11 @@
 import {createStyles, Card, Image, Text, Group, Flex, ActionIcon} from '@mantine/core';
 import {IconEdit, IconTrash} from "@tabler/icons-react";
 import {useState, useTransition} from "react";
-import {Bite} from "@/libs/api/bites";
-import {useToken, useUid} from "@/libs/auth";
+import {useToken, useUid} from "@/libs/auth/hooks";
 import {useSWRConfig} from "swr";
 import {deleteBite, editBite} from "@/app/_actions";
-import BiteActionModal from "@/components/bite-action-modal";
+import BiteActionModal from "@/components/add-bite/bite-action-modal";
+import {Bite} from "@/libs/api/models/Bite";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -99,6 +99,7 @@ export default function BiteView(props: BitesProps) {
           </Text>
 
           <Group noWrap spacing="xs">
+            {/* @todo (FEATURE): - implement user microservice and display data here*/}
             {/*<Group spacing="xs" noWrap>*/}
             {/*  <Avatar size={20} src={author.avatar} />*/}
             {/*  <Text size="xs">{author.name}</Text>*/}
