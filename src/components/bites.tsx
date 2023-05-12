@@ -35,7 +35,7 @@ export default function Bites(props : BitesInput) {
       title={p.title}
       content={p.content}
       url={p.url}
-      bid={p.id.toString()}
+      bid={p.id?.toString()}
     />;
   });
 

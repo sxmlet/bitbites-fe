@@ -33,7 +33,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface BitesProps {
-  bid: string;
+  bid?: string;
   url?: string;
   category?: string;
   title?: string;
@@ -84,9 +84,9 @@ export default function BiteView(props: BitesProps) {
       action={modifyBite}
       bite={{bid: props.bid, title: props.title, content: props.content}}
     />
-    <Card id={props.bid.toString()} withBorder radius="md" p={0} className={classes.card}>
+    <Card id={props.bid?.toString()} withBorder radius="md" p={0} className={classes.card}>
       <Group noWrap spacing={0}>
-        {props.url && <Image src={props.url} height={140} width={140} />}
+        {props.url && <Image alt={props.title} src={props.url} height={140} width={140} />}
         <div className={classes.body}>
           <Text transform="uppercase" color="dimmed" weight={700} size="xs">
             {props.category}
@@ -114,7 +114,7 @@ export default function BiteView(props: BitesProps) {
       <div className={classes.action}>
         <Flex justify={'end'}>
           <ActionIcon onClick={() => setOpenEdit(true)} bg={'blue'}><IconEdit size='1rem'/></ActionIcon>
-          <ActionIcon onClick={() => onDelete(props.bid)} color='red'><IconTrash size='1rem'/></ActionIcon>
+          <ActionIcon onClick={() => onDelete(props.bid ?? '')} color='red'><IconTrash size='1rem'/></ActionIcon>
         </Flex>
       </div> : <></>}
   </div>

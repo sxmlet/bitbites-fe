@@ -1,14 +1,12 @@
 services:
   bitbites-fe:
-    image: ${REPO}/bitbites-fe
-    build:
-      context: .
+    image: ${REPO}/bitbites-fe:${TAG}
     env_file:
       - .env
     networks:
       - bites-api
     ports:
-      - 8080:8080
+      - 3000:3000
 
 networks:
   bites-api:

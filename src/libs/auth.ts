@@ -30,7 +30,7 @@ class Auth {
   logout() {
     localStorage.removeItem('isLoggedIn');
     this.auth.logout({
-      return_to: window.location.origin,
+      returnTo: window.location.origin,
     });
   }
 

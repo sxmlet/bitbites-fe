@@ -11,9 +11,9 @@ interface ActionBiteModalProps {
   isOpen: boolean;
   close: Function;
   bite?: {
-    bid: string,
-    title: string,
-    content: string,
+    bid?: string,
+    title?: string,
+    content?: string,
   }
   isPending: boolean,
 }
@@ -33,7 +33,7 @@ export default function BiteActionModal(props: ActionBiteModalProps) {
   }
 
   return (
-    <Modal opened={props.isOpen} onClose={props.close} title="Share">
+    <Modal opened={props.isOpen} onClose={() => props.close()} title="Share">
       <LoadingOverlay visible={props.isPending}/>
       <TextInput
         defaultValue={props.bite ? props.bite.title : titleVal}

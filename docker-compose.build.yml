@@ -1,0 +1,5 @@
+services:
+  bitbites-fe:
+    image: ${REPO}/bitbites-fe:${TAG}
+    build:
+      context: .
