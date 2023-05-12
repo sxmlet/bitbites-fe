@@ -1,12 +1,7 @@
 import {WebAuth} from 'auth0-js';
 import jwt from 'jsonwebtoken';
 import {useEffect, useState} from "react";
-
-const authConfig = {
-  domain: 'dev-d2mjz3ehsqoecv3g.us.auth0.com',
-  clientId: 'omfOud1JH0zkj7g73JVVYQpYO66so7Ll',
-  callbackUrl: 'http://localhost:3000/callback'
-}
+import {config} from "@/libs/config";
 
 class Auth {
 
@@ -14,9 +9,9 @@ class Auth {
   accessToken: string = '';
 
   auth = new WebAuth({
-    domain: authConfig.domain,
-    clientID: authConfig.clientId,
-    redirectUri: authConfig.callbackUrl,
+    domain: config.domain,
+    clientID: config.clientId,
+    redirectUri: config.callbackUrl,
     responseType: 'token id_token',
     scope: 'openid'
   });
@@ -60,24 +55,9 @@ class Auth {
     return sessionStorage.getItem('uid') ?? '';
   }
 
-  async isLoggedIn(): Promise<boolean> {
-    const token = await getIdToken();
-    return !!token;
-  }
 }
 
 export const auth = new Auth();
-
-
-export async function getIdToken(): Promise<string> {
-  const resp = await fetch('http://localhost:3000/api/auth', {
-    next: {
-      revalidate: 60
-    }
-  });
-  const body = await resp.json();
-  return body.idToken;
-}
 
 interface User {
   accessToken: string,

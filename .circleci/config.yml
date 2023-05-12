@@ -4,17 +4,18 @@ jobs:
       image: ubuntu-2204:2023.02.1
     environment:
       REPO: sxmlet
+      TAG: ${CIRCLE_TAG}
     steps:
       - checkout
       - run:
           name: Build docker image
-          command: TAG=${CIRCLE_TAG} make build
+          command: make build
       - run:
           name: Log in to hub.docker.com
           command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
       - run:
           name: Publish docker image
-          command: TAG=${CIRCLE_TAG} make publish-images
+          command: make push
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows

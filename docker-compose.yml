@@ -3,6 +3,7 @@ services:
     image: ${REPO}/bitbites-fe:${TAG}
     env_file:
       - .env
+      - .env.local
     networks:
       - bites-api
     ports:
