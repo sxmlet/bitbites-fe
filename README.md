@@ -29,7 +29,7 @@ repository.
 ## Deployment & CI/CD
 
 Circle CI takes care of the automated build process. A new image is getting pushed on every tag. The git tag will be
-used for the image tag as well.
+used for the image tag as well. As part of the deployment process, the new image gets released into production.
 
 To build docker image locally:
 ```shell
