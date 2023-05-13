@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bitbites-fe
+  labels:
+    app: bitbites-fe
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: bitbites-fe
+      labels:
+        app: bitbites-fe
+    spec:
+      containers:
+        - name: bitbites-fe
+          image: DOCKER_IMAGE
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_BITES_API
+              valueFrom:
+                configMapKeyRef:
+                  key: NEXT_PUBLIC_BITES_API
+                  name: bitbites
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: bitbites-fe
